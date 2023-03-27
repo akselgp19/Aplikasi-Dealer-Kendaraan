@@ -2,8 +2,6 @@
 include "config/koneksi.php";
 if(isset($_POST['simpan'])){
   $sql = mysqli_query($con,"INSERT INTO beli(nik,nama,umur,pekerjaan,alamat) VALUES ('$_POST[nik]','$_POST[nama]','$_POST[umur]','$_POST[pekerjaan]','$_POST[alamat]')");
-
-  $eksekusi = mysqli_query($con, $sql);
   echo "<script>alert('Berhasil tersimpan');document.location.href='?menu=pembeli'</script>";
 
 }
@@ -43,15 +41,16 @@ if(isset($_POST['simpan'])){
             <form method="post">
             <div class="form-group">
                 <div class="row">
+                  
                     <input type="number" name="nik"  value="<?php echo $row_edit['nik'];?>" class="form-control" placeholder="Nik">
                                
-                    <input type="text" name="nama"  value="<?php echo $row_edit['nama'];?>" class="form-control" placeholder="Nama">
+                    <input type="text" name="nama"  value="<?php echo isset($row_edit['nama']) ? $row_edit['nama'] : '';?>" class="form-control" placeholder="Nama">
 
                     <input type="number" name="umur"  value="<?php echo $row_edit['umur'];?>" class="form-control" placeholder="Umur">
 
-                    <input type="text" name="pekerjaan"  value="<?php echo $row_edit['pekerjaan'];?>" class="form-control" placeholder="Pekerjaan">
+                    <input type="text" name="pekerjaan"  value="<?php echo isset($row_edit['pekerjaan']) ? $row_edit['pekerjaan'] : '';?>" class="form-control" placeholder="Pekerjaan">
 
-                    <input type="text-area" name="alamat"  value="<?php echo $row_edit['alamat'];?>" class="form-control" placeholder="Alamat">
+                    <input type="text" name="alamat"  value="<?php echo isset($row_edit['alamat']) ? $row_edit['alamat'] : '';?>" class="form-control" placeholder="Alamat">
                     
                 </div>
             </div>
@@ -79,6 +78,7 @@ if(isset($_POST['simpan'])){
                       <th>Umur</th>
                       <th>Pekerjaan</th>
                       <th>Alamat</th>
+                      <th><th>
                     </tr>
                   </thead>
                   <tbody>
@@ -96,7 +96,6 @@ if(isset($_POST['simpan'])){
                       <td><a href="?menu=pembeli&edit&nik=<?php echo $row_edit['nik']?>">EDIT</a></td>
                     </tr>
                   <?php } ?>
-                    
                   </tbody>
                 </table>
               </div>

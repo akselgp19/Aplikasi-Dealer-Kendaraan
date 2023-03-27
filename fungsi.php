@@ -4,6 +4,4 @@ if (!function_exists('format_money')) {
 		return 'Rp. ' . number_format($nominal, 0, ', ', '.');
 	}
 }
-
-
 ?>

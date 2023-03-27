@@ -6,18 +6,11 @@ include "fungsi.php";
                   <thead>
 
                     <tr>
-                      <th>id</th>
-                      <th>Merk</th>
-                      <th>Tipe</th>
-                      <th>Harga</th>
-                      <th>Tenor</th>
-                      <th>Bunga</th>
-                      <th>Harga Kredit</th>
-                      <th>DP</th>
-                      <th>Angsuran</th>
-                      <th>Sisa Cicilan</th>
                       <th>Nama</th>
-                      <th>Alamat</th>
+                      <th>NIM</th>
+                      <th>Tugas</th>
+                      <th>UTS</th>
+                      <th>UAS</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -26,22 +19,13 @@ include "fungsi.php";
                       while ($row_edit=mysqli_fetch_array($sql)){  
                     ?>
                     <tr>
-                      <td><?php echo $row_edit['id']?></td>
-                      <td><?php echo $row_edit['merk']?></td>
-                       <td><?php echo $row_edit['tipe']?></td>
-                      <td style="text-align: center;"><?php echo format_money($row_edit['harga']);?></td>
-                      <td><?php echo $row_edit['tenor']?></td>
-                      <td><?php echo $row_edit['bunga']?></td>
-                      <td style="text-align: center;"><?php echo format_money($row_edit['hargakredit']);?></td>
-                      <td style="text-align: center;"><?php echo format_money($row_edit['dp']);?></td>
-                      <td style="text-align: center;"><?php echo format_money($row_edit['angsuran']);?></td>
-                      <td style="text-align: center;"><?php echo format_money($row_edit['sisa']);?></td>
                       <td><?php echo $row_edit['nama']?></td>
-                      <td><?php echo $row_edit['alamat']?></td>
+                      <td><?php echo $row_edit['nim']?></td>
+                      <td><?php echo $row_edit['tugas']?></td>
+                      <td><?php echo $row_edit['uts']?></td>
+                      <td><?php echo $row_edit['uas']?></td>
                       <td>
-                        <a href="?menu=transaksi&delete&id=<?php echo $row_edit['id']?>"onClick="return confirm('Apakah anda yakin akan menghapus ini?')">HAPUS</a>
-
-                        <a href="cetak.php<?php echo '?id='  . $row_edit['id']; ?>" class="btn btn-info" >CETAK</a>
+                      <a href="?menu=transaksi&delete&nim=<?php echo $row_edit['nim']?>"onClick="return confirm('Apakah anda yakin akan menghapus ini?')">HAPUS</a>
                       </td>
                     </tr>
                   <?php } ?>

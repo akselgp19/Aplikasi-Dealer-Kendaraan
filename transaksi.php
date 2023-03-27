@@ -2,10 +2,9 @@
 include "config/koneksi.php";
 include "fungsi.php";
 if(isset($_POST['simpan'])){
-  $sql = mysqli_query($con,"INSERT INTO bayar(merk,tipe,harga,tenor,bunga,hargakredit,dp,angsuran,sisa,nama,alamat) VALUES ('$_POST[merk]','$_POST[tipe]','$_POST[harga]','$_POST[tenor]','$_POST[bunga]','$_POST[hargakredit]','$_POST[dp]','$_POST[angsuran]','$_POST[sisa]','$_POST[nama]','$_POST[alamat]')");
-
-  $eksekusi = mysqli_query($con, $sql);
+  $sql = mysqli_query($con,"INSERT INTO bayar(plat,merk,tipe,harga,tenor,bunga,hargakredit,dp,angsuran,sisa,nama,nik,alamat) VALUES ('$_POST[plat]','$_POST[merk]','$_POST[tipe]','$_POST[harga]','$_POST[tenor]','$_POST[bunga]','$_POST[hargakredit]','$_POST[dp]','$_POST[angsuran]','$_POST[sisa]','$_POST[nama]','$_POST[nik]','$_POST[alamat]')");
   echo "<script>alert('Berhasil tersimpan');document.location.href='?menu=transaksi'</script>";
+
 }
   // ini untuk opsi delete hapus
        if(isset($_GET['delete'])){
@@ -24,7 +23,7 @@ if(isset($_POST['simpan'])){
             $row_edit=null;
         }
          if(isset($_POST['update'])){
-             $sql = mysqli_query($con,"UPDATE bayar SET id = '$_POST[id]', merk = '$_POST[merk]',tipe = '$_POST[tipe]', harga = '$_POST[harga]', nama = '$_POST[nama]', alamat = '$_POST[alamat]',angsuran = '$_POST[angsuran]', tenor = '$_POST[tenor]',bunga = '$_POST[bunga]',hargakredit = '$_POST[hargakredit]',dp = '$_POST[dp]',sisa = '$_POST[sisa]' WHERE id = '$_GET[id]'");
+             $sql = mysqli_query($con,"UPDATE bayar SET plat = '$_POST[plat]', merk = '$_POST[merk]', tipe = '$_POST[tipe]', harga = '$_POST[harga]', nama = '$_POST[nama]', nik = '$_POST[nik]', alamat = '$_POST[alamat]',angsuran = '$_POST[angsuran]', tenor = '$_POST[tenor]',bunga = '$_POST[bunga]',hargakredit = '$_POST[hargakredit]',dp = '$_POST[dp]',sisa = '$_POST[sisa]' WHERE id = '$_GET[id]'");
               if($sql){
                 echo "<script>alert('data berhasil diupdate');
                 document.location.href= '?menu=transaksi'</script>";
@@ -93,7 +92,7 @@ if(isset($_POST['simpan'])){
                                 $jsArrayNama = "var idTipe = new Array();\n";
                                 while ($row = mysqli_fetch_array($result)) {
                                 echo '<option name="plat"  value="' . $row['plat'] . '">' . $row['plat'] . '</option>';
-                                $jsArrayNama .= "idTipe['" . $row['plat'] . "'] = 
+                                $jsArrayNama.= "idTipe['" . $row['plat'] . "'] = 
                                 {
                                 merk:'".addslashes($row['merk'])."',
                                 tipe:'".addslashes($row['tipe'])."',
@@ -102,10 +101,9 @@ if(isset($_POST['simpan'])){
                             ?>
 
                     </select>
-                    
-                    <input type="text" id="merk" name="merk"  value="<?php echo $row_edit['merk'];?>" class="form-control" placeholder="Merk">
+                    <input type="text" id="merk" name="merk"  value="<?php echo isset($row_edit['merk']) ? $row_edit['merk'] : '';?>" class="form-control" placeholder="Merk">
 
-                    <input type="text" id="tipe" name="tipe"  value="<?php echo $row_edit['tipe'];?>" class="form-control" placeholder="Tipe">
+                    <input type="text" id="tipe" name="tipe"  value="<?php echo isset($row_edit['tipe']) ? $row_edit['tipe'] : '';?>" class="form-control" placeholder="Tipe">
 
                     <input type="number" id="harga" name="harga"  value="<?php echo $row_edit['harga'];?>" class="form-control" placeholder="Harga">
 
@@ -119,33 +117,34 @@ if(isset($_POST['simpan'])){
 
                     <input type="number" id="bunga" name="bunga" class="form-control" placeholder="Bunga">
 
-                      <input type="number" id="" name="hargakredit"  value="<?php echo $row_edit['hargakredit'];?>" class="form-control" placeholder="Harga Kredit">
+                    <input type="number" id="" name="hargakredit"  value="<?php echo $row_edit['hargakredit'];?>" class="form-control" placeholder="Harga Kredit">
 
-                       <input type="number" id="dp" oninput="bagi()" name="dp"  value="<?php echo $row_edit['dp'];?>" class="form-control" placeholder="DP">
+                    <input type="number" id="dp" oninput="bagi()" name="dp"  value="<?php echo $row_edit['dp'];?>" class="form-control" placeholder="DP">
 
-                        <input type="number" id="" name="angsuran" class="form-control" placeholder="Angsuran">
+                    <input type="number" id="" name="angsuran" class="form-control" placeholder="Angsuran">
 
-                         <input type="number" id="" name="sisa"  value="<?php echo $row_edit['sisa'];?>" class="form-control" placeholder="Sisa Cicilan">
+                    <input type="number" id="" name="sisa"  value="<?php echo $row_edit['sisa'];?>" class="form-control" placeholder="Sisa Cicilan">
 
-                         <select name="nama" class="form-control" class="form-control form-control-md" id="" onchange='changeValueNamaa(this.value)' required="required">
+                    <select name="nama" class="form-control" class="form-control form-control-md" id="" onchange='changeValueNamaa(this.value)' required="required">
                       <option value="" disabled="disabled" selected="selected">- pilih nama -</option>
                         <?php
                                 $con = mysqli_connect("localhost", "root","", "kreditcbt");
-                                $query=mysqli_query($con, "select * from beli order by beli asc");
+                                $query=mysqli_query($con, "select * from beli order by nama asc");
                                 $result = mysqli_query($con, "select * from beli");
                                 $jsArrayNamaa = "var idTipee = new Array();\n";
                                 while ($row = mysqli_fetch_array($result)) {
                                 echo '<option name="nama"  value="' . $row['nama'] . '">' . $row['nama'] . '</option>';
                                 $jsArrayNamaa.= "idTipee['" . $row['nama'] . "'] = 
                                 {
+                                nik:'".addslashes($row['nik'])."',
                                 alamat:'".addslashes($row['alamat'])."'};\n";
                                 }
                             ?>
-
                     </select>
+                    <input type="number" id="nik" name="nik"  value="<?php echo isset($row_edit['nik']) ? $row_edit['nik'] : '';?>" class="form-control" placeholder="NIK">
 
-                    <input type="text" id="alamat" name="alamat" value="<?php echo $row_edit['alamat'];?>" class="form-control" placeholder="Alamat">
-                </div>
+                    <input type="text" id="alamat" name="alamat"  value="<?php echo isset($row_edit['alamat']) ? $row_edit['alamat'] : '';?>" class="form-control" placeholder="Alamat">
+                  </div>
             </div>
                 <?php
           if(isset ($_GET['edit'])){
@@ -164,9 +163,9 @@ if(isset($_POST['simpan'])){
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
-
                     <tr>
                       <th>id</th>
+                      <th>plat</th>
                       <th>Merk</th>
                       <th>Tipe</th>
                       <th>Harga</th>
@@ -177,18 +176,21 @@ if(isset($_POST['simpan'])){
                       <th>Angsuran</th>
                       <th>Sisa Cicilan</th>
                       <th>Nama</th>
+                      <th>NIK</th>
                       <th>Alamat</th>
+                      <th><th>
                     </tr>
                   </thead>
                   <tbody>
-                   <?php
-                    $sql = mysqli_query($con,"SELECT * FROM bayar");
-                    while ($row_edit = mysqli_fetch_array($sql)){
-                   ?>
+                    <?php
+                      $sql = mysqli_query($con,"SELECT * FROM bayar");
+                      while ($row_edit = mysqli_fetch_array($sql)){  
+                    ?>
                     <tr>
                       <td><?php echo $row_edit['id']?></td>
+                      <td><?php echo $row_edit['plat']?></td>
                       <td><?php echo $row_edit['merk']?></td>
-                       <td><?php echo $row_edit['tipe']?></td>
+                      <td><?php echo $row_edit['tipe']?></td>
                       <td style="text-align: center;"><?php echo format_money($row_edit['harga']);?></td>
                       <td><?php echo $row_edit['tenor']?></td>
                       <td><?php echo $row_edit['bunga']?></td>
@@ -197,23 +199,26 @@ if(isset($_POST['simpan'])){
                       <td style="text-align: center;"><?php echo format_money($row_edit['angsuran']);?></td>
                       <td style="text-align: center;"><?php echo format_money($row_edit['sisa']);?></td>
                       <td><?php echo $row_edit['nama']?></td>
+                      <td><?php echo $row_edit['nik']?></td>
                       <td><?php echo $row_edit['alamat']?></td>
-                      <td>
-                        <a href="?menu=transaksi&delete&id=<?php echo $row_edit['id']?>"onClick="return confirm('Apakah anda yakin akan menghapus ini?')">HAPUS</a>
-                      </td>
+                      <td><a href="?menu=transaksi&delete&id=<?php echo $row_edit['id']?>"onClick="return confirm('Apakah anda yakin akan menghapus ini?')">HAPUS</a></td>
+                      <td><a href="?menu=transaksi&edit&id=<?php echo $row_edit['id']?>">EDIT</a></td>
+                      <td><a href="cetak.php?menu=transaksi&cetak&id=<?php echo $row_edit['id']?>">CETAK</a></td>  
                     </tr>
-                  <?php } ?>
+                    <?php } ?>
                   </tbody>
                 </table>
               </div>
             </div>
           </div>
+
 <script type="text/javascript">
         <?php echo $jsArrayNamaa; ?>
         function changeValueNamaa(nama){
             console.log(nama);
             console.log(idTipee);    
             document.getElementById('alamat').value = idTipee[nama].alamat;
+            document.getElementById('nik').value = idTipee[nama].nik;
         }
         </script>
 

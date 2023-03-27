@@ -1,9 +1,8 @@
 <?php
-session_start();
 
 include "config/koneksi.php";
-include"fpdf.php";
 include "fungsi.php";
+require('fpdf/fpdf.php');
 
 $query = mysqli_query($con,"select * from bayar
 								WHERE id = '$_GET[id]'")or die(mysqli_error());
@@ -26,17 +25,17 @@ $pdf->setXY(140,1);
 $pdf->Ln();
 $pdf->SetFont('Courier', '', 10);
 $pdf->setX(10);
-$pdf->Cell(0, 4, 'AKSEL MOTOR ', '', 0, 'L');
+$pdf->Cell(0, 4, 'AKSEL DEALER ', '', 0, 'L');
 $pdf->setX(140);
 $pdf->Cell(0, 4, 'Tanggal ', '', 0, 'L');
 $pdf->setX(160);
 $pdf->Cell(0, 4, ': '.(date('Y-m-d')), '', 1, 'L');
-$pdf->Cell(0, 4, 'JL.ANGGREK NO 12, Bogor', '', 1, 'L');$pdf->setX(150);
+$pdf->Cell(0, 4, 'Perumahan Nuansa Hijau Block D No. 1, Ciomas, Bogor.', '', 1, 'L');$pdf->setX(150);
 $pdf->setX(10);
-$pdf->Cell(0, 4, 'Telp. ', '', 1, 'L');
+$pdf->Cell(0, 4, 'Telp. 0818190503', '', 1, 'L');
 $pdf->setX(10);
 $pdf->SetFont('Courier', 'B', 11);
-$pdf->Cell(0, 4, 'FAKTUR PENJUALAN', '', 1, 'C');
+$pdf->Cell(0, 4, 'FAKTUR PEMBAYARAN', '', 1, 'C');
 $pdf->Ln();
 
 $pdf->SetFont('Courier', '', 10);

@@ -72,7 +72,7 @@
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="?menu=nilai">
+        <a class="nav-link" href="?menu=kendaraan">
           <i class="fas fa-fw fa-table"></i>
           <span>Data Motor</span></a>
       </li>
@@ -95,11 +95,11 @@
           <span>Data Angsuran</span></a>
       </li>
 
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" href="?menu=laporan">
           <i class="fas fa-fw fa-table"></i>
           <span>Data Laporan</span></a>
-      </li>
+      </li> -->
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
@@ -171,8 +171,8 @@
 
         <?php
             switch(@$_GET['menu']){
-              case 'nilai';
-              include 'nilai.php';
+              case 'kendaraan';
+              include 'kendaraan.php';
               break;
             }
 
